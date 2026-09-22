@@ -2,12 +2,12 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <title>LeetSync</title>
+  <title>LazyPush</title>
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
   <main>
-    <h1>LeetSync</h1>
+    <h1>LazyPush</h1>
     <p class="muted">LeetCode → GitHub</p>
 
     <section>
@@ -22,7 +22,11 @@
         Repository
         <input id="repo" placeholder="username/leetcode-solutions">
       </label>
-      <button id="save">Save repository</button>
+      <label>
+        GitHub token
+        <input id="token" type="password" autocomplete="off" placeholder="Fine-grained token with Contents: write">
+      </label>
+      <button id="save">Save GitHub settings</button>
     </section>
 
     <section>
@@ -31,6 +35,7 @@
     </section>
 
     <button id="capture">Capture current solution</button>
+    <button id="push">Push captured solution</button>
   </main>
   <script src="popup.js"></script>
 </body>

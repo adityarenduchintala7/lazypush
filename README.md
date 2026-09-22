@@ -1,4 +1,4 @@
-# LeetSync
+# LazyPush
 
 A Chrome Manifest V3 extension for preserving distinct LeetCode solutions and eventually syncing them to GitHub.
 

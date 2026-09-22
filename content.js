@@ -27,10 +27,34 @@
     return "";
   }
 
+  function isVisible(element) {
+    const style = getComputedStyle(element);
+    const rect = element.getBoundingClientRect();
+    return style.display !== "none" && style.visibility !== "hidden" &&
+      rect.width > 0 && rect.height > 0;
+  }
+
   function getLanguage() {
-    const text = document.body.innerText;
     const candidates = ["C++", "Python", "Java", "JavaScript", "TypeScript", "Go", "C", "C#"];
-    return candidates.find(x => text.includes(x)) || "unknown";
+    const editor = document.querySelector(".monaco-editor");
+    const editorRect = editor?.getBoundingClientRect();
+    const matches = [...document.querySelectorAll("*")]
+      .filter(isVisible)
+      .map(element => ({element, language: element.innerText?.trim() || ""}))
+      .filter(({language}) => candidates.includes(language));
+
+    if (!matches.length) return "unknown";
+    if (!editorRect) return matches[0].language;
+
+    matches.sort(({element: a}, {element: b}) => {
+      const distance = element => {
+        const rect = element.getBoundingClientRect();
+        return Math.abs(rect.bottom - editorRect.top) + Math.abs(rect.left - editorRect.left);
+      };
+      return distance(a) - distance(b);
+    });
+
+    return matches[0].language;
   }
 
   function detectAccepted() {

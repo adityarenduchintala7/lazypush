@@ -1,10 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "LeetSync",
-  "version": "0.1.0",
-  "description": "Capture distinct accepted LeetCode solutions and sync them to GitHub.",
+  "name": "LazyPush",
+  "version": "0.2.0",
+  "description": "Capture distinct accepted LeetCode solutions and push them to GitHub.",
   "permissions": ["storage", "activeTab", "scripting"],
-  "host_permissions": ["https://leetcode.com/*"],
+  "host_permissions": ["https://leetcode.com/*", "https://api.github.com/*"],
   "action": {
     "default_popup": "popup.html"
   },
