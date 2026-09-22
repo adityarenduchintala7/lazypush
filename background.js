@@ -44,7 +44,7 @@ async function nextSolutionPath(repo, token, slug, extension) {
 }
 
 async function pushSolution({solution, repo, token}) {
-  if (!/^[^/\\s]+\/[^/\\s]+$/.test(repo)) throw new Error("Repository must be in owner/repository format.");
+  if (!/^[^/\s]+\/[^/\s]+$/.test(repo)) throw new Error("Repository must be in owner/repository format.");
   if (!solution?.code?.trim() || !solution?.problem?.slug) throw new Error("No captured solution is available.");
 
   const hash = await sha256(solution.code);
