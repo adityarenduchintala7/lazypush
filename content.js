@@ -9,6 +9,14 @@
     return match ? match[1] : null;
   }
 
+  function getProblemNumber() {
+    const title = [...document.querySelectorAll("h1, h2")]
+      .find(element => isVisible(element) && /^\d+\.\s+/.test(element.innerText?.trim() || ""));
+    const text = title?.innerText || document.body.innerText;
+    const match = text.match(/(?:^|\n)(\d+)\.\s+[^\n]+/);
+    return match ? Number(match[1]) : null;
+  }
+
   function getEditorText() {
     // Monaco editor
     const monaco = document.querySelector(".monaco-editor");
@@ -70,6 +78,7 @@
     state.lastCode = code;
     state.lastProblem = {
       slug,
+      number: getProblemNumber(),
       language: getLanguage(),
       url: location.href,
       capturedAt: new Date().toISOString()

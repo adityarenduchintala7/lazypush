@@ -22,8 +22,13 @@ async function sha256(text) {
   return [...new Uint8Array(digest)].map(byte => byte.toString(16).padStart(2, "0")).join("");
 }
 
-async function nextSolutionPath(repo, token, slug, extension) {
-  const directory = `leetcode/${slug}`;
+function problemDirectory(problem) {
+  const prefix = Number.isInteger(problem.number) ? `${problem.number}-` : "";
+  return `leetcode/${prefix}${problem.slug}`;
+}
+
+async function nextSolutionPath(repo, token, problem, extension) {
+  const directory = problemDirectory(problem);
   const response = await fetch(`https://api.github.com/repos/${repo}/contents/${directory}`, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -53,7 +58,7 @@ async function pushSolution({solution, repo, token}) {
   if (existing[storageKey]) return {ok: true, duplicate: true, path: existing[storageKey]};
 
   const extension = extensionFor[solution.problem.language] || "txt";
-  const path = await nextSolutionPath(repo, token, solution.problem.slug, extension);
+  const path = await nextSolutionPath(repo, token, solution.problem, extension);
   const response = await fetch(`https://api.github.com/repos/${repo}/contents/${path}`, {
     method: "PUT",
     headers: {
@@ -63,7 +68,7 @@ async function pushSolution({solution, repo, token}) {
       "X-GitHub-Api-Version": "2022-11-28"
     },
     body: JSON.stringify({
-      message: `Add ${solution.problem.slug} solution`,
+      message: `Add ${solution.problem.number ? `#${solution.problem.number} ` : ""}${solution.problem.slug} solution`,
       content: toBase64(solution.code)
     })
   });
